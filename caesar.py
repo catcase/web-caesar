@@ -1,27 +1,28 @@
 import string
+lower = string.ascii_lowercase
+upper = string.ascii_uppercase
 
-def caesar(text, num):
-    lower = string.ascii_lowercase
-    upper = string.ascii_uppercase
-    secret = ''
+def alphabet_position(letter):
+  if letter.islower():
+    return lower.index(letter)
+  else:
+    return upper.index(letter) 
 
-    for char in text:
-        if char not in lower and char not in upper:
-            secret = secret + str(char)
-        elif char in upper:
-            rotated = upper.index(char) + num
-            rotated = rotated % 26
-            secret = secret + upper[rotated]
-        else:
-            rotated = lower.index(char) + num  
-            rotated = rotated % 26
-            secret = secret + lower[rotated]
-    return secret
+def rotate_character(char, rot):
 
-def main():
-    message = input("What is your secret message? ")
-    num_rot = int(input("How many times would you like to rotate? "))
-    print(caesar(message, num_rot))
+  new_index = (alphabet_position(char) + rot) % 26
+  if char.islower():
+    return lower[new_index]
+  else:
+    return upper[new_index]
 
-if __name__ == "__main__":
-    main()
+def encrypt(text, rot):
+  new_string = ''
+
+  for char in text:
+    if char.isalpha():
+      new_string = new_string + rotate_character(char, rot)
+    else:
+      new_string = new_string + char
+
+  return new_string
